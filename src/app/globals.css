@@ -3,12 +3,19 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #DE2910;
+  /* 定义安全区变量 */
+  --safe-area-top: env(safe-area-inset-top, 0);
+  --safe-area-right: env(safe-area-inset-right, 0);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0);
+  --safe-area-left: env(safe-area-inset-left, 0);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-primary: var(--primary);
+  --font-sans: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -20,7 +27,76 @@
 }
 
 body {
-  background: var(--background);
+  background: transparent;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  /* 关键：使用 dvh 替代 vh */
+  min-height: 100dvh; 
+  /* 防止字体自动调整 */
+  -webkit-text-size-adjust: 100%; 
+  /* 隐藏横向滚动 */
+  overflow-x: hidden; 
+}
+
+/* 全局重置 */
+* {
+  box-sizing: border-box;
+}
+
+/* 禁止用户选择 */
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* 页面容器：使用 dvh 并处理移动端兼容 */
+.page-container {
+  width: 100%;
+  min-height: 100dvh; /* 核心修改：动态视口高度 */
+  /* 降级方案：如果浏览器不支持 dvh，使用 vh */
+  min-height: 100vh; 
+  overflow-x: hidden;
+  position: relative;
+  /* 强制开启硬件加速，优化滚动性能 */
+  transform: translateZ(0); 
+}
+
+/* 背景图容器：确保铺满 */
+.bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* 如果背景图需要铺满不留白 */
+  background-size: cover; 
+  /* 如果背景图需要完整显示 */
+  /* background-size: contain; */ 
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+/* 内容容器：加入安全区适配 */
+.content-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: 100dvh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 关键：推开刘海和底部小黑条 */
+  padding: 
+    calc(var(--safe-area-top) + 10px) 
+    calc(var(--safe-area-right) + 5%) 
+    calc(var(--safe-area-bottom) + 10px) 
+    calc(var(--safe-area-left) + 5%);
+  /* 如果你希望内容在安全区内居中，可以使用 */
+  /* padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); */
 }

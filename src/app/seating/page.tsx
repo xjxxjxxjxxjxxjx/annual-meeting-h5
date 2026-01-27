@@ -1,0 +1,344 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { config } from '@/config'
+
+export default function SeatLayoutPage() {
+  const router = useRouter()
+  const [showFullImage, setShowFullImage] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+  
+  // 缩放和拖拽相关状态
+  const [scale, setScale] = useState(1)
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [isDragging, setIsDragging] = useState(false)
+  const [startDrag, setStartDrag] = useState({ x: 0, y: 0 })
+  
+  // 重置缩放和位置
+  const resetZoom = () => {
+    setScale(1)
+    setPosition({ x: 0, y: 0 })
+  }
+
+  useEffect(() => {
+    setIsLoaded(true)
+  }, [])
+
+  // 处理点击图片（关闭查看器）
+  const handleImageClick = () => {
+    setShowFullImage(false)
+    resetZoom() // 关闭时重置缩放和位置
+  }
+
+  // 鼠标/触摸开始事件
+  const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
+    if (scale === 1) return // 未缩放时不允许拖拽
+    
+    setIsDragging(true)
+    if ('touches' in e) {
+      const touch = e.touches[0]
+      setStartDrag({ x: touch.clientX - position.x, y: touch.clientY - position.y })
+    } else {
+      setStartDrag({ x: e.clientX - position.x, y: e.clientY - position.y })
+    }
+  }
+
+  // 鼠标/触摸移动事件
+  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDragging) return
+    
+    let clientX, clientY
+    if ('touches' in e) {
+      const touch = e.touches[0]
+      clientX = touch.clientX
+      clientY = touch.clientY
+    } else {
+      clientX = e.clientX
+      clientY = e.clientY
+    }
+    
+    setPosition({ 
+      x: clientX - startDrag.x, 
+      y: clientY - startDrag.y 
+    })
+  }
+
+  // 鼠标/触摸结束事件
+  const handleEnd = () => {
+    setIsDragging(false)
+  }
+
+  // 鼠标滚轮缩放
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault()
+    const delta = e.deltaY > 0 ? 0.9 : 1.1
+    setScale(prev => Math.max(1, Math.min(5, prev * delta)))
+  }
+
+  // 触摸缩放事件
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      const touch1 = e.touches[0]
+      const touch2 = e.touches[1]
+      const distance = Math.hypot(
+        touch2.clientX - touch1.clientX,
+        touch2.clientY - touch1.clientY
+      )
+      setStartDrag({ x: distance, y: distance })
+    }
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      e.preventDefault()
+      const touch1 = e.touches[0]
+      const touch2 = e.touches[1]
+      const currentDistance = Math.hypot(
+        touch2.clientX - touch1.clientX,
+        touch2.clientY - touch1.clientY
+      )
+      const scaleFactor = currentDistance / startDrag.x
+      setScale(prev => Math.max(1, Math.min(5, prev * scaleFactor)))
+    }
+  }
+
+  return (
+    <div className="page-container seating-container" style={{ position: 'relative', width: '100%', minHeight: '100vh', minHeight: '100dvh', padding: 'env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)', boxSizing: 'border-box' }}>
+      {/* 整体背景 - 模拟长图效果 */}
+      <div 
+        className="seating-full-bg"
+        style={{
+          position: 'relative',
+          width: '100%',
+          minHeight: '100vh',
+          minHeight: '100dvh',
+          backgroundColor: '#F90101',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        {/* 头部背景图片 - 顶部显示 */}
+        <div style={{ position: 'relative', width: '100%' }}>
+          {/* 左上角返回按钮 */}
+          <button
+            onClick={() => router.push('/')}
+            className="absolute top-10 left-8 z-10"
+            style={{
+              width: '40px',
+              height: '40px',
+              backgroundImage: `url(/images/home/返回图标.png)`,
+              backgroundSize: 'contain',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+            aria-label="返回首页"
+          />
+          <img 
+            src="/images/notice/notice-bg(1).png"
+            alt="座位排布头部"
+            style={{
+              width: '100%',
+              height: 'auto',
+              maxHeight: '300px',
+              objectFit: 'cover'
+            }}
+          />
+        </div>
+        
+        {/* 中间内容区域 - 可拉伸 */}
+        <div 
+          className="seating-content"
+          style={{
+            position: 'relative',
+            width: '100%',
+            padding: '20px 0',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}
+        >
+          {/* 主内容区域 */}
+          <div 
+            className="seating-main"
+            style={{ 
+              width: '90%',
+              maxWidth: '800px',
+              padding: '0 5%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            {/* 主卡片 */}
+            <div className="w-full bg-white/95 rounded-2xl shadow-xl border-2 border-primary/30 overflow-hidden transition-all duration-500" style={{ opacity: isLoaded ? 1 : 0, transform: isLoaded ? 'translateY(0)' : 'translateY(8px)' }}>
+              {/* 头部 */}
+              <div className="bg-gradient-to-r from-primary/80 to-primary/90 px-6 py-3">
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  会场平面图与座位分区
+                </h2>
+              </div>
+
+              {/* 内容 - 使用overflow-y-auto实现滚动 */}
+              <div className="p-6 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                {/* 隐藏滚动条 */}
+                <style jsx>{`
+                  div::-webkit-scrollbar { display: none; }
+                `}</style>
+              
+
+                {/* 座位分区图 */}
+                <div 
+                  className="relative cursor-pointer rounded-xl overflow-hidden border-2 border-primary/30 hover:border-primary/50 transition-all duration-500 shadow-lg hover:shadow-xl transform hover:-translate-y-1 delay-200"
+                  style={{ opacity: isLoaded ? 1 : 0, transform: isLoaded ? 'translateY(0)' : 'translateY(4px)' }}
+                  onClick={() => setShowFullImage(true)}
+                >
+                  {/* 使用图片替换HTML结构 */}
+                  <img 
+                    src={config.images.seatingMap} 
+                    alt="座位分区图" 
+                    className="w-full h-64 object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                  
+                  {/* 图片遮罩效果 */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* 查看大图提示 */}
+                  <div className="absolute bottom-3 right-3 bg-primary text-white text-xs px-3 py-1 rounded-full flex items-center gap-1 hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    查看大图
+                  </div>
+                </div>
+
+                {/* 分区说明 */}
+                <div className="mt-6 bg-primary/5 rounded-xl p-5 border border-primary/20 transition-all duration-500 delay-300" style={{ opacity: isLoaded ? 1 : 0, transform: isLoaded ? 'translateY(0)' : 'translateY(4px)' }}>
+                  <h4 className="text-md font-semibold text-primary mb-4 flex items-center gap-2">
+                    <span className="text-xl">🏷️</span>
+                    分区说明
+                  </h4>
+                  <div className="space-y-3">
+                    {[
+                      { area: 'A/B区', desc: '高管及特邀嘉宾' },
+                      { area: 'C/D区', desc: '研发部门与技术团队' },
+                      { area: 'E/F区', desc: '市场销售与运营团队' },
+                      { area: 'G/H区', desc: '行政财务与后勤支持' }
+                    ].map((item, index) => (
+                      <div 
+                        key={index} 
+                        className="flex items-center gap-4 p-3 bg-white rounded-lg hover:bg-primary/5 transition-all duration-300 transform hover:translate-x-2 hover:shadow-md"
+                        style={{ opacity: isLoaded ? 1 : 0, transitionDelay: `${400 + index * 100}ms` }}
+                      >
+                        <div className="text-primary font-bold min-w-[60px] text-center bg-primary/10 rounded-full py-1 px-3">{item.area}</div>
+                        <div className="text-sm text-gray-700 flex-1">{item.desc}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* 尾部背景图片 - 底部显示 */}
+        <img 
+          src="/images/notice/notice-bg(600).png"
+          alt="座位排布尾部"
+          style={{
+            width: '100%',
+            height: 'auto',
+            maxHeight: '400px',
+            objectFit: 'cover'
+          }}
+        />
+      </div>
+
+      {/* 全屏图片预览 */}
+      {showFullImage && (
+        <div 
+          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-0" 
+        >
+          {/* 顶部按钮 */}
+          <div className="absolute top-4 right-4 flex gap-3 z-50">
+            {/* 重置按钮 */}
+            <button
+              onClick={resetZoom}
+              className="bg-primary/80 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-primary transition-all duration-300 transform hover:scale-110"
+              title="重置视角"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+            </button>
+            
+            {/* 关闭按钮 */}
+            <button
+              onClick={() => {
+                setShowFullImage(false)
+                resetZoom()
+              }}
+              className="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-primary/80 transition-all duration-300 transform hover:scale-110"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* 图片查看区域 */}
+          <div 
+            className="relative w-full h-full overflow-hidden"
+            onMouseDown={handleStart}
+            onMouseMove={handleMove}
+            onMouseUp={handleEnd}
+            onMouseLeave={handleEnd}
+            onTouchStart={(e) => {
+              handleTouchStart(e)
+              handleStart(e)
+            }}
+            onTouchMove={(e) => {
+              handleTouchMove(e)
+              handleMove(e)
+            }}
+            onTouchEnd={handleEnd}
+            onWheel={handleWheel}
+            style={{ touchAction: 'none' }}
+          >
+            {/* 缩放容器 */}
+            <div 
+              className="absolute inset-0 flex items-center justify-center" 
+              style={{
+                transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
+                transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+              }}
+            >
+              {/* 完整座位图 */}
+              <img 
+                src={config.images.seatingMap} 
+                alt="完整座位排布图" 
+                className="max-w-full max-h-full object-contain"
+                style={{
+                  userSelect: 'none',
+                  cursor: scale > 1 ? 'grab' : 'default'
+                }}
+              />
+            </div>
+          </div>
+          
+          {/* 操作提示 */}
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-primary/80 text-white text-xs px-4 py-2 rounded-full flex items-center gap-1 shadow-lg">
+            <span>💡</span>
+            <div>
+              双指缩放查看细节 | 单指拖拽移动 | 点击重置
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+};
