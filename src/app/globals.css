@@ -9,6 +9,9 @@
   --safe-area-right: env(safe-area-inset-right, 0);
   --safe-area-bottom: env(safe-area-inset-bottom, 0);
   --safe-area-left: env(safe-area-inset-left, 0);
+  /* 定义rem适配基准 */
+  --rem-base: 16;
+  font-size: var(--rem-base)px;
 }
 
 @theme inline {

@@ -77,10 +77,12 @@ export default function ContactPage() {
           {/* 左上角返回按钮 */}
           <button
             onClick={() => router.push('/')}
-            className="absolute top-10 left-8 z-10"
+            className="absolute z-10"
             style={{
-              width: '40px',
-              height: '40px',
+              width: '12vw',
+              height: '22vw',
+              top: '4vw',
+              left: '4vw',
               backgroundImage: `url(/images/home/返回图标.png)`,
               backgroundSize: 'contain',
               backgroundPosition: 'center',
@@ -96,8 +98,8 @@ export default function ContactPage() {
             style={{
               width: '100%',
               height: 'auto',
-              maxHeight: '300px',
-              objectFit: 'cover'
+              objectFit: 'contain',
+              zIndex: 1
             }}
           />
         </div>
@@ -108,77 +110,76 @@ export default function ContactPage() {
           style={{
             position: 'relative',
             width: '100%',
-            padding: '20px 0',
+            flex: 1,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center'
+            alignItems: 'center',
+            padding: '1vw 0',
+            overflowY: 'auto'
           }}
         >
           {/* 主内容区域 */}
           <div 
             className="support-main"
             style={{ 
-              width: '90%',
-              maxWidth: '800px',
-              padding: '0 5%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
+              width: '80vw'
             }}
           >
             {/* 主卡片 */}
-            <div className="w-full bg-white/95 rounded-2xl shadow-xl border-2 border-primary/30 overflow-hidden">
-              <div className="bg-gradient-to-r from-primary/80 to-primary/90 px-6 py-3">
-                <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                  联系我们
+            <div className="w-full bg-white/95 shadow-xl border-2 border-primary/30 overflow-hidden" style={{ borderRadius: '1.5vw' }}>
+              <div className="bg-gradient-to-r from-primary/80 to-primary/90 px-6 py-3" style={{ padding: '3vw 4vw' }}>
+                <h2 className="text-xl font-bold text-white flex items-center gap-2" style={{ fontSize: '4vw' }}>
+                  会务保障与联系方式
                 </h2>
               </div>
 
               {/* 内容 - 使用overflow-y-auto实现滚动 */}
-              <div className="p-4 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="p-6 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', padding: '3.5vw' }}>
                 {/* 隐藏滚动条 */}
                 <style jsx>{`
                   div::-webkit-scrollbar { display: none; }
                 `}</style>
                 
-                <p className="text-gray-600 text-sm mb-1 text-center">
+                <p className="text-gray-600 text-sm mb-1 text-center" style={{ fontSize: '3.5vw', marginBottom: '1.5vw' }}>
                   如有任何问题，请随时联系以下工作人员
                 </p>
 
-                <div className="space-y-4">
+                <div className="space-y-4" style={{ gap: '1.5vw' }}>
                   {contactItems.map((item, index) => (
                     <div
                       key={index}
                       className="flex items-center justify-between p-4 bg-primary/5 rounded-2xl border border-primary/20 hover:bg-primary/10 transition-colors"
+                      style={{ padding: '1.5vw', gap: '1.5vw', borderRadius: '1vw' }}
                     >
-                      <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl">
+                      <div className="flex items-center gap-4" style={{ gap: '1.5vw' }}>
+                        <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl" style={{ width: '8vw', height: '8vw', fontSize: '4vw' }}>
                           {item.icon}
                         </div>
                         <div>
-                          <p className="text-sm text-gray-600">{item.title}</p>
-                          <p className="text-lg font-semibold text-gray-800">{item.name}</p>
+                          <p className="text-sm text-gray-600" style={{ fontSize: '2.5vw' }}>{item.title}</p>
+                          <p className="text-lg font-semibold text-gray-800" style={{ fontSize: '3vw' }}>{item.name}</p>
                         </div>
                       </div>
                       <button
                         onClick={() => handleCall(item.phone)}
                         className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors"
+                        style={{ padding: '1.2vw 3vw', gap: '0.8vw' }}
                       >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ width: '3vw', height: '3vw' }}>
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                         </svg>
-                        <span className="font-medium">拨打</span>
+                        <span className="font-medium" style={{ fontSize: '2.5vw' }}>拨打</span>
                       </button>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-8 p-4 bg-primary/5 rounded-2xl border border-primary/20">
-                  <div className="flex items-start gap-3">
-                    <span className="text-2xl">💡</span>
+                <div className="mt-8 p-4 bg-primary/5 rounded-2xl border border-primary/20" style={{ marginTop: '2vw', padding: '1.5vw', gap: '1.5vw', borderRadius: '1vw' }}>
+                  <div className="flex items-start gap-3" style={{ gap: '1.5vw' }}>
+                    <span className="text-2xl" style={{ fontSize: '3.5vw' }}>💡</span>
                     <div>
-                      <p className="text-sm font-medium text-primary mb-1">温馨提示</p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm font-medium text-primary mb-1" style={{ fontSize: '2.8vw', marginBottom: '0.8vw' }}>温馨提示</p>
+                      <p className="text-sm text-gray-600" style={{ fontSize: '2.5vw' }}>
                         请在工作时间（9:00-18:00）内联系会务组，其他紧急事务可随时拨打年会总协调电话。
                       </p>
                     </div>
@@ -196,8 +197,8 @@ export default function ContactPage() {
           style={{
             width: '100%',
             height: 'auto',
-            maxHeight: '400px',
-            objectFit: 'cover'
+            objectFit: 'contain',
+            zIndex: 1
           }}
         />
       </div>

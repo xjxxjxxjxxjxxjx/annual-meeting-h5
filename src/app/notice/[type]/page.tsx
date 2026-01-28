@@ -63,10 +63,12 @@ const NoticeDetail = ({ params }: NoticeDetailParams) => {
           {/* 左上角返回按钮 */}
           <button
             onClick={() => router.push('/notice')}
-            className="absolute top-10 left-8 z-10"
+            className="absolute z-10"
             style={{
-              width: '40px',
-              height: '40px',
+              width: '12vw',
+              height: '22vw',
+              top: '4vw',
+              left: '4vw',
               backgroundImage: `url(/images/home/返回图标.png)`,
               backgroundSize: 'contain',
               backgroundPosition: 'center',
@@ -87,8 +89,8 @@ const NoticeDetail = ({ params }: NoticeDetailParams) => {
             style={{
               width: '100%',
               height: 'auto',
-              maxHeight: '300px',
-              objectFit: 'cover'
+              objectFit: 'contain',
+              zIndex: 1
             }}
           />
         </div>
@@ -109,25 +111,23 @@ const NoticeDetail = ({ params }: NoticeDetailParams) => {
           <div 
             className="notice-detail-main"
             style={{ 
-              width: '90%',
-              maxWidth: '800px',
-              padding: '0 5%',
+              width: '80vw',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
             }}
           >
             {/* 可滚动文本容器 */}
-            <div className="w-full bg-white/95 rounded-2xl shadow-xl border-2 border-primary/30 overflow-hidden">
+            <div className="w-full bg-white/95 rounded-2xl shadow-xl border-2 border-primary/30 overflow-hidden" style={{ borderRadius: '1.5vw' }}>
               {/* 内容 - 使用overflow-y-auto实现滚动 */}
-              <div className="p-6 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="p-6 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', padding: '3.5vw' }}>
                 {/* 隐藏滚动条 */}
                 <style jsx>{`
                   div::-webkit-scrollbar { display: none; }
                 `}</style>
                 
                 {/* 文本内容 */}
-                <div className="space-y-4 text-gray-600 leading-relaxed">
+                <div className="space-y-4 text-gray-600 leading-relaxed" style={{ gap: '2.5vw', fontSize: '3.2vw' }}>
                   <p>欢迎参加公司年会，为确保年会顺利进行，请遵守以下{getTitle()}：</p>
                   
                   {type === 'discipline' && (
@@ -193,13 +193,13 @@ const NoticeDetail = ({ params }: NoticeDetailParams) => {
         
         {/* 尾部背景图片 - 底部显示 */}
         <img 
-          src="/images/other/no-text-bg/dining-bg(1).png"
+          src="/images/notice/notice-bg(600).png"
           alt="参会须知尾部"
           style={{
             width: '100%',
             height: 'auto',
-            maxHeight: '400px',
-            objectFit: 'cover'
+            objectFit: 'contain',
+            zIndex: 1
           }}
         />
       </div>

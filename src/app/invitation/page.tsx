@@ -24,31 +24,34 @@ const Invitation: React.FC = () => {
       >
         {/* 左上角返回按钮 */}
         <button
-          onClick={() => router.push('/')}
-          className="absolute top-10 left-8 z-10"
-          style={{
-            width: '40px',
-            height: '40px',
-            backgroundImage: `url(/images/home/返回图标.png)`,
-            backgroundSize: 'contain',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            border: 'none',
-            cursor: 'pointer'
-          }}
-          aria-label="返回首页"
-        />
+            onClick={() => router.push('/')}
+            className="absolute z-10"
+            style={{
+              width: '12vw',
+              height: '22vw',
+              top: '4vw',
+              left: '4vw',
+              backgroundImage: `url(/images/home/返回图标.png)`,
+              backgroundSize: 'contain',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+            aria-label="返回首页"
+          />
         
         {/* 邀请函图片 - 只显示这一个图片 */}
         <img 
-          src="/images/home/邀请函.jpg"
-          alt="邀请函"
-          style={{
-            width: '100%',
-            height: 'auto',
-            objectFit: 'contain'
-          }}
-        />
+            src="/images/home/邀请函.jpg"
+            alt="邀请函"
+            style={{
+              width: '100%',
+              height: 'auto',
+              objectFit: 'contain',
+              zIndex: 1
+            }}
+          />
       </div>
     </div>
   );

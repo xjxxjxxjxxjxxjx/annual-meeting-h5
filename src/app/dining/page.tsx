@@ -93,10 +93,12 @@ export default function DiningSeatingPage() {
           {/* 左上角返回按钮 */}
           <button
             onClick={() => router.push('/')}
-            className="absolute top-10 left-8 z-10"
+            className="absolute z-10"
             style={{
-              width: '40px',
-              height: '40px',
+              width: '12vw',
+              height: '22vw',
+              top: '4vw',
+              left: '4vw',
               backgroundImage: `url(/images/home/返回图标.png)`,
               backgroundSize: 'contain',
               backgroundPosition: 'center',
@@ -112,8 +114,8 @@ export default function DiningSeatingPage() {
             style={{
               width: '100%',
               height: 'auto',
-              maxHeight: '300px',
-              objectFit: 'cover'
+              objectFit: 'contain',
+              zIndex: 1
             }}
           />
         </div>
@@ -124,34 +126,31 @@ export default function DiningSeatingPage() {
           style={{
             position: 'relative',
             width: '100%',
-            padding: '20px 0',
+            flex: 1,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center'
+            alignItems: 'center',
+            padding: '4vw 0',
+            overflowY: 'auto'
           }}
         >
           {/* 主内容区域 */}
           <div 
             className="dining-main"
             style={{ 
-              width: '90%',
-              maxWidth: '800px',
-              padding: '0 5%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
+              width: '80vw'
             }}
           >
             {/* 主卡片 */}
-            <div className="w-full bg-white/95 rounded-2xl shadow-xl border-2 border-primary/30 overflow-hidden">
-              <div className="bg-gradient-to-r from-primary/80 to-primary/90 px-6 py-3">
-                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+            <div className="w-full bg-white/95 shadow-xl border-2 border-primary/30 overflow-hidden" style={{ borderRadius: '1.5vw' }}>
+              <div className="bg-gradient-to-r from-primary/80 to-primary/90 px-6 py-3" style={{ padding: '3vw 4vw' }}>
+                <h2 className="text-xl font-bold text-white flex items-center gap-2" style={{ fontSize: '4vw' }}>
                   餐饮座位安排
                 </h2>
               </div>
 
               {/* 内容 - 使用overflow-y-auto实现滚动 */}
-              <div className="p-6 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="p-6 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', padding: '3.5vw' }}>
                 {/* 隐藏滚动条 */}
                 <style jsx>{`
                   div::-webkit-scrollbar { display: none; }
@@ -173,7 +172,9 @@ export default function DiningSeatingPage() {
                         
                           className="w-full px-4 py-2 pl-12 border-2 border-primary/30 rounded-xl focus:border-primary focus:outline-none transition-colors text-lg bg-white placeholder-primary/50"
                           style={{
-                            boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.05)'
+                            boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.05)',
+                            padding: '3vw 5vw 3vw 18vw',
+                            fontSize: '4vw'
                           }}
                         />
                         <svg
@@ -181,6 +182,7 @@ export default function DiningSeatingPage() {
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
+                          style={{ width: '4.8vw', height: '4.8vw', left: '4.5vw' }}
                         >
                           <path
                             strokeLinecap="round"
@@ -193,28 +195,29 @@ export default function DiningSeatingPage() {
                     </div>
 
                     {searchEmployeeId.trim() && (
-                      <div className="space-y-3">
-                        <div className="text-sm text-gray-600">
+                      <div className="space-y-3" style={{ gap: '1.5vw', marginTop: '1.5vw' }}>
+                        <div className="text-sm text-gray-600" style={{ fontSize: '2.8vw' }}>
                           {filteredResults.length > 0
                             ? `找到 ${filteredResults.length} 位同事`
-                            : ' '}
+                            : '未找到相关信息'}
                         </div>
 
                         {filteredResults.length > 0 && (
-                          <div className="space-y-3">
+                          <div className="space-y-3" style={{ gap: '1.5vw' }}>
                             {filteredResults.map((item, index) => (
                               <div
                                 key={index}
                                 className="flex items-center justify-between p-4 bg-primary/5 rounded-2xl border border-primary/20 hover:bg-primary/10 transition-colors"
+                                style={{ padding: '1.5vw', gap: '1.5vw', borderRadius: '1vw' }}
                               >
                                 <div>
-                                  <div className="text-lg font-semibold text-gray-800">{item.name}</div>
-                                  <div className="text-sm text-gray-600">{item.department}</div>
-                                  <div className="text-xs text-gray-500 mt-1">工号: {item.employeeId}</div>
+                                  <div className="text-lg font-semibold text-gray-800" style={{ fontSize: '3vw' }}>{item.name}</div>
+                                  <div className="text-sm text-gray-600" style={{ fontSize: '2.5vw' }}>工号: {item.employeeId}</div>
+                                  <div className="text-sm text-gray-600" style={{ fontSize: '2.5vw' }}>部门: {item.department}</div>
                                 </div>
                                 <div className="text-right">
-                                  <div className="text-3xl font-bold text-primary">{item.tableNumber}</div>
-                                  <div className="text-xs text-gray-600">餐桌号</div>
+                                  <div className="text-3xl font-bold text-primary" style={{ fontSize: '4vw' }}>{item.tableNumber}</div>
+                                  <div className="text-xs text-gray-600" style={{ fontSize: '2.2vw' }}>餐桌号</div>
                                 </div>
                               </div>
                             ))}
@@ -222,33 +225,33 @@ export default function DiningSeatingPage() {
                         )}
 
                         {filteredResults.length === 0 && (
-                          <div className="text-center py-8">
+                          <div className="text-center py-4">
                             <div className="text-4xl block mb-2">🔍</div>
-                            <div className="text-gray-700">未查询到相关信息，请联系会务组</div>
-                            <div className="text-sm text-gray-500 mt-1">请检查输入信息是否正确</div>
+                            <div className="text-gray-700" style={{ fontSize: '2.8vw' }}>未查询到相关信息，请联系会务组</div>
+                            <div className="text-sm text-gray-500 mt-1" style={{ fontSize: '2.5vw' }}>请检查输入信息是否正确</div>
                           </div>
                         )}
                       </div>
                     )}
 
                     {!searchEmployeeId.trim() && (
-                      <div className="text-center py-8">
-                        <div className="text-4xl block mb-1">🍽️</div>
-                        <div className="text-gray-700">输入工号、姓名、部门开始查询</div>
+                      <div className="text-center py-4">
+                        <div className="block mb-1" style={{ fontSize: '6vw' }}>🍽️</div>
+                        <div className="text-gray-700" style={{ fontSize: '2.8vw' }}>输入工号、姓名、部门开始查询</div>
                       </div>
                     )}
                   </>
                 )}
 
                 {/* 用餐时间说明 */}
-                <div className="mt-4 bg-primary/5 rounded-xl p-4 border border-primary/20">
-                  <h4 className="text-md font-semibold text-primary mb-3">用餐时间安排</h4>
+                <div className="mt-4 bg-primary/5 p-4 border border-primary/20" style={{ borderRadius: '1vw', padding: '1.5vw' }}>
+                  <h4 className="text-md font-semibold text-primary mb-3" style={{ fontSize: '3vw' }}>用餐时间安排</h4>
                   <div className="space-y-2">
                     <div className="flex items-start gap-2">
-                      <div className="text-primary font-bold mt-1">🍲</div>
+                      <div className="text-primary font-bold mt-1" style={{ fontSize: '3vw' }}>🍲</div>
                       <div>
-                        <div className="text-sm text-gray-800 font-medium">晚餐时间</div>
-                        <div className="text-xs text-gray-600">18:30 - 20:00</div>
+                        <div className="text-sm text-gray-800 font-medium" style={{ fontSize: '2.8vw' }}>晚餐时间</div>
+                        <div className="text-xs text-gray-600" style={{ fontSize: '2.5vw' }}>18:30 - 20:00</div>
                       </div>
                     </div>
                   </div>
@@ -265,8 +268,8 @@ export default function DiningSeatingPage() {
           style={{
             width: '100%',
             height: 'auto',
-            maxHeight: '400px',
-            objectFit: 'cover'
+            objectFit: 'contain',
+            zIndex: 1
           }}
         />
       </div>

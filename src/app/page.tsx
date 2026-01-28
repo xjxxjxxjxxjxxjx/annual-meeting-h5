@@ -61,70 +61,123 @@ const Home: React.FC = () => {
   ];
 
    return (
-    <div className="page-container home-container" style={{ 
-      position: 'relative', 
-      width: '100%', 
-      height: '100dvh',
-      overflow: 'hidden' 
-    }}>
-      {/* 背景图 */}
+    <div className="page-container home-container" style={{ position: 'relative', width: '100%', minHeight: '100vh', minHeight: '100dvh', padding: 'env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)', boxSizing: 'border-box' }}>
+      {/* 整体背景 - 模拟长图效果 */}
       <div 
         className="home-full-bg"
         style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
+          position: 'relative',
           width: '100%',
-          height: '100%',
-          backgroundImage: `url(/images/home/底-首页925.jpg)`,
-          backgroundSize: '100% 100%',
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
-      
-      {/* 主内容区域：调整布局位置 */}
-      <div 
-        className="home-main"
-        style={{ 
-          position: 'absolute',
-          top: '190px',
-          left: '60px',
-          right: '60px',
-          height: '600px',
+          minHeight: '100vh',
+          minHeight: '100dvh',
+          backgroundColor: '#F90101',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
-        <div className="grid grid-cols-2 gap-1 w-full"> 
-          {features.map((feature) => (
-            <div 
-              key={feature.id} 
-              className="relative flex justify-center items-center p-1"
-            >
-              {feature.isExternal ? (
-                <a href={feature.href} target="_blank" rel="noopener noreferrer">
-                  <img
-                    src={feature.icon}
-                    alt={feature.title}
-                    className="max-w-full max-h-32 object-contain"
-                    style={{ height: 'auto' }}
-                  />
-                </a>
-              ) : (
-                <Link href={feature.href}>
-                  <img
-                    src={feature.icon}
-                    alt={feature.title}
-                    className="max-w-full max-h-32 object-contain"
-                    style={{ height: 'auto' }}
-                  />
-                </Link>
-              )}
-            </div>
-          ))}
+        {/* 头部背景图片 - 顶部显示 */}
+        <div style={{ position: 'relative', width: '100%' }}>
+          <img 
+            src="/images/home/底-首页(1).jpg"
+            alt="主页头部"
+            style={{
+              width: '100%',
+              height: 'auto',
+              objectFit: 'contain'
+            }}
+          />
         </div>
+        
+        {/* 中间内容区域 - 可拉伸 */}
+        <div 
+          className="home-content"
+          style={{
+            position: 'relative',
+            width: '100%',
+            padding: '0',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}
+        >
+          {/* 主内容区域 */}
+          <div 
+            className="home-main"
+            style={{ 
+              width: '65vw',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            {/* 按键网格 */}
+            <div 
+              className="buttons-grid"
+              style={{
+                position: 'relative',
+                width: '90vw',
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '0',
+                padding: '0',
+              }}
+            >
+              {features.map((feature) => (
+                <div 
+                  key={feature.id} 
+                  className="button-item"
+                  style={{
+                    position: 'relative',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '0',
+                    aspectRatio: '1.5',
+                  }}
+                >
+                  {feature.isExternal ? (
+                    <a href={feature.href} target="_blank" rel="noopener noreferrer" style={{ width: '100%', height: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <img
+                        src={feature.icon}
+                        alt={feature.title}
+                        style={{
+                          width: '100%',
+                          height: 'auto',
+                          objectFit: 'contain',
+                        }}
+                      />
+                    </a>
+                  ) : (
+                    <Link href={feature.href} style={{ width: '100%', height: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <img
+                        src={feature.icon}
+                        alt={feature.title}
+                        style={{
+                          width: '100%',
+                          height: 'auto',
+                          objectFit: 'contain',
+                        }}
+                      />
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        {/* 尾部背景图片 - 底部显示 */}
+        <img 
+          src="/images/notice/notice-bg(600).png"
+          alt="主页尾部"
+          style={{
+            width: '100%',
+            height: 'auto',
+            objectFit: 'contain',
+            zIndex: 1
+          }}
+        />
       </div>
     </div>
   );

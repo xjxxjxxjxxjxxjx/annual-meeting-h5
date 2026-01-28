@@ -60,10 +60,12 @@ const Notice: React.FC = () => {
           {/* 左上角返回按钮 */}
           <button
             onClick={() => router.push('/')}
-            className="absolute top-10 left-8 z-10"
+            className="absolute z-10"
             style={{
-              width: '40px',
-              height: '40px',
+              width: '12vw',
+              height: '22vw',
+              top: '4vw',
+              left: '4vw',
               backgroundImage: `url(/images/home/返回图标.png)`,
               backgroundSize: 'contain',
               backgroundPosition: 'center',
@@ -79,8 +81,8 @@ const Notice: React.FC = () => {
             style={{
               width: '100%',
               height: 'auto',
-              maxHeight: '300px',
-              objectFit: 'cover'
+              objectFit: 'contain',
+              zIndex: 1
             }}
           />
         </div>
@@ -91,26 +93,26 @@ const Notice: React.FC = () => {
           style={{
             position: 'relative',
             width: '100%',
-            padding: '20px 0',
+            flex: 1,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center'
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '4vw 0'
           }}
         >
           {/* 主内容区域 */}
           <div 
             className="notice-main"
             style={{ 
-              width: '90%',
-              maxWidth: '800px',
-              padding: '0 5%',
+              width: '80vw',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
             }}
           >
             {/* 功能按钮网格 - 4行1列竖屏布局 */}
-            <div className="w-full max-w-xs grid grid-cols-1 gap-0">
+            <div className="w-full grid grid-cols-1 gap-0">
               {sortedNoticeItems.map((item) => (
                 <div key={item.id} className="relative group">
                   <Link href={`/notice/${item.id}`} className="block">
@@ -133,8 +135,8 @@ const Notice: React.FC = () => {
           style={{
             width: '100%',
             height: 'auto',
-            maxHeight: '400px',
-            objectFit: 'cover'
+            objectFit: 'contain',
+            zIndex: 1
           }}
         />
       </div>
