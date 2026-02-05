@@ -18,7 +18,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
-  --font-sans: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+  --font-sans: 'SimHei', '黑体', 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -32,15 +32,16 @@
 body {
   background: transparent;
   color: var(--foreground);
-  font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'SimHei', '黑体', 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
   margin: 0;
   padding: 0;
   /* 关键：使用 dvh 替代 vh */
   min-height: 100dvh; 
   /* 防止字体自动调整 */
   -webkit-text-size-adjust: 100%; 
-  /* 隐藏横向滚动 */
-  overflow-x: hidden; 
+  /* 隐藏横向滚动，只允许body垂直滚动 */
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* 全局重置 */
@@ -62,7 +63,7 @@ body {
   min-height: 100dvh; /* 核心修改：动态视口高度 */
   /* 降级方案：如果浏览器不支持 dvh，使用 vh */
   min-height: 100vh; 
-  overflow-x: hidden;
+  overflow: hidden;
   position: relative;
   /* 强制开启硬件加速，优化滚动性能 */
   transform: translateZ(0); 

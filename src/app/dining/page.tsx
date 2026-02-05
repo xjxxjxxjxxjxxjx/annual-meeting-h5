@@ -23,7 +23,6 @@ export default function DiningSeatingPage() {
     const loadDiningData = async () => {
       try {
         setLoading(true)
-        console.log('开始加载CSV数据...')
         
         // 读取CSV文件
         const response = await fetch('/data/餐桌排布(1).csv')
@@ -34,11 +33,9 @@ export default function DiningSeatingPage() {
         
         // 读取文本数据
         const csvText = await response.text()
-        console.log('文件内容:', csvText)
         
         // 解析CSV数据
         const lines = csvText.split('\n').filter(line => line.trim())
-        console.log('总行数:', lines.length)
         
         if (lines.length < 2) {
           throw new Error('CSV文件数据不足')
@@ -47,9 +44,6 @@ export default function DiningSeatingPage() {
         // 获取表头（处理可能的BOM字符和空格）
         const headerLine = lines[0].replace(/^\ufeff/, '').trim()
         const headers = headerLine.split(',').map(header => header.trim())
-        console.log('表头:', headers)
-        console.log('表头[3]:', headers[3])
-        console.log('表头长度:', headers.length)
         
         // 解析数据行
         const rawData = lines.slice(1).map((line, index) => {
@@ -61,31 +55,18 @@ export default function DiningSeatingPage() {
           return row
         })
         
-        console.log('原始数据数量:', rawData.length)
-        
-        // 显示前几条数据
-        if (rawData.length > 0) {
-          console.log('前3条原始数据:', rawData.slice(0, 3))
-          console.log('第一条数据的工号字段:', rawData[0]['工号'])
-          console.log('第一条数据的所有字段:', Object.keys(rawData[0]))
-        }
-        
         // 转换数据格式
         const formattedData: DiningInfo[] = rawData.map((item: any) => {
-          console.log('转换前数据:', item)
           const formatted = {
             name: item['姓名'] || item['name'] || '',
             employeeId: item['工号'] || item['employeeId'] || item['id'] || '',
             tableNumber: item['餐桌号'] || item['tableNumber'] || item['table'] || '',
             department: item['部门'] || item['department'] || ''
           }
-          console.log('转换后数据:', formatted)
           return formatted
         })
         
-        console.log('转换后数据数量:', formattedData.length)
         setDiningData(formattedData)
-        console.log('成功加载数据:', formattedData)
       } catch (error) {
         console.error('读取数据失败:', error)
         // 出错时使用模拟数据作为备用
@@ -99,11 +80,9 @@ export default function DiningSeatingPage() {
           { name: '周九', employeeId: '007', tableNumber: '4', department: '研发部' },
           { name: '吴十', employeeId: '008', tableNumber: '4', department: '研发部' }
         ]
-        console.log('使用模拟数据作为备用')
         setDiningData(mockData)
       } finally {
         setLoading(false)
-        console.log('数据加载完成')
       }
     }
 
@@ -122,7 +101,7 @@ export default function DiningSeatingPage() {
   }, [searchEmployeeId, diningData])
 
   return (
-    <div className="page-container dining-container" style={{ position: 'relative', width: '100%', height: '100vh', height: '100dvh', padding: 'env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
+    <div className="page-container dining-container" style={{ position: 'relative', width: '100%', padding: 'env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
       {/* 整体背景 - 模拟长图效果 */}
       <div 
         className="dining-full-bg"
@@ -166,18 +145,6 @@ export default function DiningSeatingPage() {
               display: 'block'
             }}
           />
-          {/* 头部与中间衔接处覆盖层 */}
-          <div style={{
-            position: 'absolute',
-            bottom: '0',
-            left: '0',
-            right: '0',
-            height: '2px',
-            backgroundImage: `url(/images/背景切片/中无.jpg)`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'top center',
-            zIndex: 1
-          }} />
         </div>
         
         {/* 中间内容区域 - 可拉伸 */}
@@ -188,24 +155,24 @@ export default function DiningSeatingPage() {
             width: '100%',
             flex: 1,
             backgroundImage: `url(/images/背景切片/中无.jpg)`,
-            backgroundSize: '100% 100%',
+            backgroundSize: '100.5% 101%',
             backgroundPosition: 'top left',
             backgroundRepeat: 'no-repeat',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             padding: '4vw 0',
-            overflowY: 'auto',
-            minHeight: 0
+            minHeight: 0,
+            marginTop: '-1px',
+            marginBottom: '-3px',
+            zIndex: 1
           }}
         >
           {/* 主内容区域 */}
           <div 
             className="dining-main"
             style={{ 
-              width: '80vw',
-              maxHeight: '100%',
-              overflowY: 'auto'
+              width: '80vw'
             }}
           >
             {/* 主卡片 */}
@@ -216,12 +183,9 @@ export default function DiningSeatingPage() {
                 </h2>
               </div>
 
-              {/* 内容 - 使用overflow-y-auto实现滚动 */}
-              <div className="p-6 overflow-y-auto bg-[#f95d3e]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', padding: '3.5vw' }}>
-                {/* 隐藏滚动条 */}
-                <style jsx>{`
-                  div::-webkit-scrollbar { display: none; }
-                `}</style>
+              {/* 内容 */}
+              <div className="p-6 bg-[#f95d3e]" style={{ padding: '3.5vw' }}>
+
                 
                 {loading ? (
                   <div className="text-center py-8">
@@ -315,10 +279,9 @@ export default function DiningSeatingPage() {
                   <h4 className="text-md font-semibold text-white mb-3" style={{ fontSize: '3vw' }}>用餐时间安排</h4>
                   <div className="space-y-2">
                     <div className="flex items-start gap-2">
-                      <div className="text-white font-bold mt-1" style={{ fontSize: '3vw' }}>🍲</div>
                       <div>
                         <div className="text-sm text-white font-medium" style={{ fontSize: '2.8vw' }}>晚餐时间</div>
-                        <div className="text-xs text-white/80" style={{ fontSize: '2.5vw' }}>18:30 - 20:00</div>
+                        <div className="text-xs text-white/80" style={{ fontSize: '2.5vw' }}>17:30 - 20:00</div>
                       </div>
                     </div>
                   </div>
@@ -330,18 +293,6 @@ export default function DiningSeatingPage() {
         
         {/* 尾部背景图片 - 底部显示 */}
         <div style={{ position: 'relative', width: '100%', lineHeight: 0 }}>
-          {/* 中间与尾部衔接处覆盖层 */}
-          <div style={{
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            right: '0',
-            height: '2px',
-            backgroundImage: `url(/images/背景切片/中无.jpg)`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'bottom center',
-            zIndex: 1
-          }} />
           <img 
             src="/images/背景切片/底-太阳.jpg"
             alt="餐饮安排尾部"

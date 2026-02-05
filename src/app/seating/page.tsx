@@ -104,7 +104,7 @@ export default function SeatLayoutPage() {
   }
 
   return (
-    <div className="page-container seating-container" style={{ position: 'relative', width: '100%', height: '100vh', height: '100dvh', padding: 'env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
+    <div className="page-container seating-container" style={{ position: 'relative', width: '100%', padding: 'env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
       {/* 整体背景 - 模拟长图效果 */}
       <div 
         className="seating-full-bg"
@@ -148,18 +148,6 @@ export default function SeatLayoutPage() {
               display: 'block'
             }}
           />
-          {/* 头部与中间衔接处覆盖层 */}
-          <div style={{
-            position: 'absolute',
-            bottom: '0',
-            left: '0',
-            right: '0',
-            height: '2px',
-            backgroundImage: `url(/images/背景切片/中无.jpg)`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'top center',
-            zIndex: 1
-          }} />
         </div>
         
         {/* 中间内容区域 - 可拉伸 */}
@@ -170,17 +158,20 @@ export default function SeatLayoutPage() {
             width: '100%',
             flex: 1,
             backgroundImage: `url(/images/背景切片/中无.jpg)`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundSize: '100.5% 101%',
+            backgroundPosition: 'top left',
             backgroundRepeat: 'no-repeat',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             padding: '4vw 0',
-            overflowY: 'auto',
-            minHeight: 0
+            minHeight: 0,
+            marginTop: '-1px',
+            marginBottom: '-3px',
+            zIndex: 1
           }}
         >
+
           {/* 主内容区域 */}
           <div 
             className="seating-main"
@@ -197,63 +188,62 @@ export default function SeatLayoutPage() {
                 </h2>
               </div>
 
-              {/* 内容 - 使用overflow-y-auto实现滚动 */}
-              <div className="p-6 overflow-y-auto bg-[#f95d3e]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', padding: '3.5vw' }}>
-                {/* 隐藏滚动条 */}
-                <style jsx>{`
-                  div::-webkit-scrollbar { display: none; }
-                `}</style>
+              {/* 内容 */}
+              <div className="p-6 bg-[#f95d3e]" style={{ padding: '3.5vw' }}>
               
 
-                {/* 座位分区图 */}
-                <div 
-                  className="relative cursor-pointer overflow-hidden border-2 border-primary/30 hover:border-primary/50 transition-all duration-500 shadow-lg hover:shadow-xl transform hover:-translate-y-1 delay-200"
-                  style={{ opacity: isLoaded ? 1 : 0, transform: isLoaded ? 'translateY(0)' : 'translateY(4px)', borderRadius: '2vw', minHeight: '200px' }}
-                  onClick={() => setShowFullImage(true)}
-                >
-                  {/* 使用图片替换HTML结构 */}
-                  <img 
-                    src={config.images.seatingMap} 
-                    alt="座位分区图" 
-                    className="w-full h-auto object-contain transition-transform duration-700 hover:scale-105"
-                    style={{ height: 'auto', width: '100%' }}
-                  />
-                  
-                  {/* 图片遮罩效果 */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#E5482E]/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
-                  
-                  {/* 查看大图提示 */}
-                  <div className="absolute bottom-3 right-3 bg-[#FAF5BD] text-[#E5482E] text-xs px-3 py-1 rounded-full flex items-center gap-1 hover:bg-[#FAF5BD]/90 transition-all duration-300 transform hover:scale-105 shadow-lg" style={{ bottom: '3vw', right: '3vw', padding: '1vw 3vw', gap: '1vw' }}>
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ width: '3vw', height: '3vw' }}>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                    <span style={{ fontSize: '2.4vw' }}>查看大图</span>
+                <div>
+                  {/* 座位分区图 */}
+                  <div 
+                    className="relative cursor-pointer overflow-hidden border-2 border-primary/30 hover:border-primary/50 transition-all duration-500 shadow-lg hover:shadow-xl transform hover:-translate-y-1 delay-200"
+                    style={{ opacity: isLoaded ? 1 : 0, transform: isLoaded ? 'translateY(0)' : 'translateY(4px)', borderRadius: '2vw', minHeight: '200px' }}
+                    onClick={() => setShowFullImage(true)}
+                  >
+                    {/* 使用图片替换HTML结构 */}
+                    <img 
+                      src={config.images.seatingMap} 
+                      alt="座位分区图" 
+                      className="w-full h-auto object-contain transition-transform duration-700 hover:scale-105"
+                      style={{ height: 'auto', width: '100%' }}
+                    />
+                    
+                    {/* 图片遮罩效果 */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#E5482E]/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    {/* 查看大图提示 */}
+                    <div className="absolute bottom-3 right-3 bg-[#FAF5BD] text-[#E5482E] text-xs px-3 py-1 rounded-full flex items-center gap-1 hover:bg-[#FAF5BD]/90 transition-all duration-300 transform hover:scale-105 shadow-lg" style={{ bottom: '3vw', right: '3vw', padding: '1vw 3vw', gap: '1vw' }}>
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ width: '3vw', height: '3vw' }}>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                      <span style={{ fontSize: '2.4vw' }}>查看大图</span>
+                    </div>
                   </div>
                 </div>
-
-                {/* 分区说明 */}
-                <div className="mt-6 bg-[#f7714d] p-5 border border-[#FAF5BD] transition-all duration-500 delay-300" style={{ opacity: isLoaded ? 1 : 0, transform: isLoaded ? 'translateY(0)' : 'translateY(4px)', marginTop: '3vw', padding: '2.5vw', gap: '1.5vw', borderRadius: '1.5vw' }}>
-                  <h4 className="text-md font-semibold text-white mb-4 flex items-center gap-2" style={{ fontSize: '3.5vw', marginBottom: '2vw', gap: '1.2vw' }}>
-                    <span style={{ fontSize: '4vw' }}>🏷️</span>
-                    分区说明
-                  </h4>
-                  <div className="space-y-3" style={{ gap: '2vw' }}>
-                    {[
-                      { area: 'A/B区', desc: '高管及特邀嘉宾' },
-                      { area: 'C/D区', desc: '研发部门与技术团队' },
-                      { area: 'E/F区', desc: '市场销售与运营团队' },
-                      { area: 'G/H区', desc: '行政财务与后勤支持' }
-                    ].map((item, index) => (
-                      <div 
-                        key={index} 
-                        className="flex items-center gap-4 p-3 bg-[#f7714d] rounded-lg hover:bg-[#f7714d]/90 transition-all duration-300 transform hover:translate-x-2 hover:shadow-md border border-[#FAF5BD]"
-                        style={{ opacity: isLoaded ? 1 : 0, transitionDelay: `${400 + index * 100}ms`, padding: '2.5vw', gap: '2vw' }}
-                      >
-                        <div className="font-bold min-w-[60px] text-center bg-[#FAF5BD] rounded-full py-1 px-3" style={{ minWidth: '16vw', padding: '0.6vw 2vw', fontSize: '2.8vw', color: '#e5482e' }}>{item.area}</div>
-                        <div className="text-sm text-white flex-1" style={{ fontSize: '2.8vw' }}>{item.desc}</div>
-                      </div>
-                    ))}
+                <div>
+                  {/* 分区说明 */}
+                  <div className="mt-6 bg-[#f7714d] p-5 border border-[#FAF5BD] transition-all duration-500 delay-300" style={{ opacity: isLoaded ? 1 : 0, transform: isLoaded ? 'translateY(0)' : 'translateY(4px)', marginTop: '3vw', padding: '2.5vw', gap: '1.5vw', borderRadius: '1.5vw' }}>
+                    <h4 className="text-md font-semibold text-white mb-4 flex items-center gap-2" style={{ fontSize: '3.5vw', marginBottom: '2vw', gap: '1.2vw' }}>
+                      <span style={{ fontSize: '4vw' }}></span>
+                      分区说明
+                    </h4>
+                    <div className="space-y-3" style={{ gap: '2vw' }}>
+                      {[
+                        { area: 'A/B区', desc: '高管及特邀嘉宾' },
+                        { area: 'C/D区', desc: '研发部门与技术团队' },
+                        { area: 'E/F区', desc: '市场销售与运营团队' },
+                        { area: 'G/H区', desc: '行政财务与后勤支持' }
+                      ].map((item, index) => (
+                        <div 
+                          key={index} 
+                          className="flex items-center gap-4 p-3 bg-[#f7714d] rounded-lg hover:bg-[#f7714d]/90 transition-all duration-300 transform hover:translate-x-2 hover:shadow-md border border-[#FAF5BD]"
+                          style={{ opacity: isLoaded ? 1 : 0, transitionDelay: `${400 + index * 100}ms`, padding: '2.5vw', gap: '2vw' }}
+                        >
+                          <div className="font-bold min-w-[60px] text-center bg-[#FAF5BD] rounded-full py-1 px-3" style={{ minWidth: '16vw', padding: '0.6vw 2vw', fontSize: '2.8vw', color: '#e5482e' }}>{item.area}</div>
+                          <div className="text-sm text-white flex-1" style={{ fontSize: '2.8vw' }}>{item.desc}</div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -263,18 +253,6 @@ export default function SeatLayoutPage() {
         
         {/* 尾部背景图片 - 底部显示 */}
         <div style={{ position: 'relative', width: '100%', lineHeight: 0 }}>
-          {/* 中间与尾部衔接处覆盖层 */}
-          <div style={{
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            right: '0',
-            height: '10px',
-            backgroundImage: `url(/images/背景切片/中无.jpg)`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'bottom center',
-            zIndex: 1
-          }} />
           <img 
             src="/images/背景切片/底-太阳.jpg"
             alt="座位排布尾部"

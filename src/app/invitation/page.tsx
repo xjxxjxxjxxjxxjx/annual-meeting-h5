@@ -7,7 +7,7 @@ import { config } from '@/config';
 const Invitation: React.FC = () => {
   const router = useRouter();
   return (
-    <div className="page-container invitation-container" style={{ position: 'relative', width: '100%', height: '100vh', height: '100dvh', padding: 'env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
+    <div className="page-container invitation-container" style={{ position: 'relative', width: '100%', padding: 'env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
       {/* 整体背景 - 模拟长图效果 */}
       <div 
         className="invitation-full-bg"
@@ -47,13 +47,16 @@ const Invitation: React.FC = () => {
             width: '100%',
             flex: 1,
             backgroundImage: `url(/images/背景切片/中无.jpg)`,
-            backgroundSize: '100% 100%',
+            backgroundSize: '100.5% 101%',
             backgroundPosition: 'top left',
             backgroundRepeat: 'no-repeat',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            minHeight: 0
+            minHeight: 0,
+            marginTop: '-1px',
+            marginBottom: '-3px',
+            zIndex: 1
           }}
         >
           {/* 邀请函图片 - 只显示这一个图片 */}
