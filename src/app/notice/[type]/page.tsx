@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { config } from '@/config';
 
 
@@ -11,7 +10,6 @@ interface NoticeDetailParams {
 }
 
 const NoticeDetail = ({ params }: NoticeDetailParams) => {
-  const router = useRouter();
   // 在Next.js 16+中，params是一个Promise，需要使用React.use()来获取其值
   const { type } = React.use(params);
   
@@ -57,23 +55,24 @@ const NoticeDetail = ({ params }: NoticeDetailParams) => {
         {/* 头部背景图片 - 顶部显示 */}
         <div style={{ position: 'relative', width: '100%', zIndex: 1, margin: 0, padding: 0, lineHeight: 0, overflow: 'hidden' }}>
           {/* 左上角返回按钮 */}
-          <button
-            onClick={() => router.push('/notice')}
-            className="absolute z-10"
-            style={{
-              width: '15vw',
-              height: '23vw',
-              top: '4vw',
-              left: '4vw',
-              backgroundImage: `url(/images/home/返回图标.png)`,
-              backgroundSize: 'contain',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              border: 'none',
-              cursor: 'pointer'
-            }}
-            aria-label="返回参会须知"
-          />
+          <Link href="/notice" className="absolute z-10">
+            <div
+              className="absolute z-10"
+              style={{
+                width: '15vw',
+                height: '23vw',
+                top: '4vw',
+                left: '4vw',
+                backgroundImage: `url(/images/home/返回图标.png)`,
+                backgroundSize: 'contain',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+              aria-label="返回参会须知"
+            />
+          </Link>
           <img 
             src="/images/背景切片/logo右.jpg"
             alt="参会须知头部"

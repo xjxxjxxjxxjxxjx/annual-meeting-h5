@@ -56,7 +56,7 @@ export const config = {
     },
     
     // 座位排布图
-    seatingMap: '/images/home/座位详情图.jpg',
+    seatingMap: '/images/微官网素材0203/座位分布图.png',
   },
   
   // 电话号码配置
@@ -72,7 +72,7 @@ export const config = {
   // 座位图配置
   seating: {
     background: '/images/home/底-首页.jpg', // 座位排布背景图
-    detailImage: '/images/home/座位详情图.jpg', // 座位详情图
+    detailImage: '/images/微官网素材0203/座位分布图.png', // 座位详情图
   },
   
   // 餐饮安排配置

@@ -285,6 +285,38 @@ export default function DiningSeatingPage() {
                       </div>
                     </div>
                   </div>
+                  
+                  {/* 餐位分布图 */}
+                  <div className="mt-4 space-y-4">
+                    <div>
+                      <h5 className="text-sm text-white font-medium mb-2" style={{ fontSize: '2.8vw' }}>九州厅用餐排布图</h5>
+                      <div 
+                        className="relative overflow-hidden border-2 border-primary/30 hover:border-primary/50 transition-all duration-500 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                        style={{ borderRadius: '1vw', overflow: 'hidden', cursor: 'default' }}
+                      >
+                        <img 
+                          src="/images/微官网素材0203/餐位分布图1.jpg" 
+                          alt="九州厅用餐排布图" 
+                          className="w-full h-auto object-contain transition-transform duration-700 hover:scale-105"
+                          style={{ width: '100%', height: 'auto', cursor: 'default' }}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <h5 className="text-sm text-white font-medium mb-2" style={{ fontSize: '2.8vw' }}>国宾厅用餐排布图</h5>
+                      <div 
+                        className="relative overflow-hidden border-2 border-primary/30 hover:border-primary/50 transition-all duration-500 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                        style={{ borderRadius: '1vw', overflow: 'hidden', cursor: 'default' }}
+                      >
+                        <img 
+                          src="/images/微官网素材0203/餐位分布图2.jpg" 
+                          alt="国宾厅用餐排布图" 
+                          className="w-full h-auto object-contain transition-transform duration-700 hover:scale-105"
+                          style={{ width: '100%', height: 'auto', cursor: 'default' }}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -306,6 +338,8 @@ export default function DiningSeatingPage() {
           />
         </div>
       </div>
+      
+
     </div>
   )
 };
